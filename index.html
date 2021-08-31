@@ -14,20 +14,15 @@
     import { default as wasm, generate_text } from "./pkg/markov_chain_nonsense_generator.js"
 
     wasm().then((module) => {
-      document.getElementById("use-bible").onclick = function () {
-        var request = new XMLHttpRequest();
-        request.open('GET', 'https://raw.githubusercontent.com/mxw/grmr/master/src/finaltests/bible.txt', false);
-        request.send();
-        document.getElementById("input-text").value = request.responseText;
+      // Register onclicks for example input text buttons.
+      document.getElementById("use-bible").onclick = () => {
+        set_text_from_url('https://raw.githubusercontent.com/mxw/grmr/master/src/finaltests/bible.txt', 'input-text');
+      }
+      document.getElementById("use-trump").onclick = () => {
+        set_text_from_url('https://raw.githubusercontent.com/ryanmcdermott/trump-speeches/master/speeches.txt', 'input-text');
       }
 
-      document.getElementById("use-trump").onclick = function () {
-        var request = new XMLHttpRequest();
-        request.open('GET', 'https://raw.githubusercontent.com/ryanmcdermott/trump-speeches/master/speeches.txt', false);
-        request.send();
-        document.getElementById("input-text").value = request.responseText;
-      }
-
+      // Register onclick for generate button.
       document.getElementById("generate-button").onclick = function () {
         let key_size = document.getElementById("key-size").value;
         if (key_size == "") {
@@ -54,6 +49,13 @@
       const regexp = /^[^\.]*\./;
       let result = text.replace(regexp, "");
       return result;
+    }
+
+    // Asynchronously fetches text at url, then sets the element with 'id' value to that text.
+    async function set_text_from_url(url, id) {
+      const response = await fetch(url);
+      const text = await response.text();
+      document.getElementById(id).value = text;
     }
   </script>
 
