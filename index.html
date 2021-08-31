@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Markov Chain Nonsense Generator</title>
+</head>
+
+<body>
+  <script type="module">
+    // Importing WASM as a JS module requires us to call an init function provided by the default export.
+    // This is planned to be changed in the future.
+    import { default as wasm, generate_text } from "./pkg/markov_chain_nonsense_generator.js"
+
+    wasm().then((module) => {
+      document.getElementById("use-bible").onclick = function () {
+        var request = new XMLHttpRequest();
+        request.open('GET', 'https://raw.githubusercontent.com/mxw/grmr/master/src/finaltests/bible.txt', false);
+        request.send();
+        document.getElementById("input-text").value = request.responseText;
+      }
+
+      document.getElementById("use-trump").onclick = function () {
+        var request = new XMLHttpRequest();
+        request.open('GET', 'https://raw.githubusercontent.com/ryanmcdermott/trump-speeches/master/speeches.txt', false);
+        request.send();
+        document.getElementById("input-text").value = request.responseText;
+      }
+
+      document.getElementById("generate-button").onclick = function () {
+        let key_size = document.getElementById("key-size").value;
+        if (key_size == "") {
+          key_size = 3;
+        }
+
+        let output_length = document.getElementById("output-length").value;
+        if (output_length == "") {
+          output_length = 200;
+        }
+
+        let content = document.getElementById("input-text").value;
+
+        let result = generate_text(content, key_size, output_length);
+
+        document.getElementById("result").innerHTML = result;
+      }
+    });
+  </script>
+
+  <textarea id="input-text"></textarea>
+
+  <input type="number" id="key-size" name="key-size" min="1" max="20" value="3">
+  <input type="number" id="output-length" name="output-length" min="1" max="2000" value="200">
+
+  <button id="generate-button" type="button">Generate</button>
+  <button id="use-bible" type="button">Use Bible as input</button>
+  <button id="use-trump" type="button">Use Trump speeches as input</button>
+
+  <p id="result"></p>
+</body>
+
+</html>
