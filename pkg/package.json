@@ -1,0 +1,15 @@
+{
+  "name": "markov-chain-nonsense-generator",
+  "collaborators": [
+    "Rafael Bachmann <rafael.bachmann@esrlabs.com>"
+  ],
+  "version": "0.1.0",
+  "files": [
+    "markov_chain_nonsense_generator_bg.wasm",
+    "markov_chain_nonsense_generator.js",
+    "markov_chain_nonsense_generator.d.ts"
+  ],
+  "module": "markov_chain_nonsense_generator.js",
+  "types": "markov_chain_nonsense_generator.d.ts",
+  "sideEffects": false
+}
