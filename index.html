@@ -15,15 +15,21 @@
 
     wasm().then((module) => {
       // Register onclicks for example input text buttons.
-      document.getElementById("use-bible").onclick = () => {
-        set_text_from_url('https://raw.githubusercontent.com/mxw/grmr/master/src/finaltests/bible.txt', 'input-text');
+      document.getElementById("use-bible").onclick = async () => {
+        start_spinning();
+        await set_text_from_url("https://raw.githubusercontent.com/mxw/grmr/master/src/finaltests/bible.txt", "input-text");
+        stop_spinning();
       }
-      document.getElementById("use-trump").onclick = () => {
-        set_text_from_url('https://raw.githubusercontent.com/ryanmcdermott/trump-speeches/master/speeches.txt', 'input-text');
+      document.getElementById("use-trump").onclick = async () => {
+        start_spinning();
+        await set_text_from_url("https://raw.githubusercontent.com/ryanmcdermott/trump-speeches/master/speeches.txt", "input-text");
+        stop_spinning();
       }
 
       // Register onclick for generate button.
       document.getElementById("generate-button").onclick = function () {
+        start_spinning();
+
         let key_size = document.getElementById("key-size").value;
         if (key_size == "") {
           key_size = 3;
@@ -41,6 +47,8 @@
         let beautified = strip_to_first_sentence(result);
 
         document.getElementById("result").innerHTML = beautified;
+
+        stop_spinning();
       }
     });
 
@@ -57,6 +65,14 @@
       const text = await response.text();
       document.getElementById(id).value = text;
     }
+
+    function start_spinning() {
+      document.getElementById("spinner").style.opacity = 1;
+    }
+
+    function stop_spinning() {
+      document.getElementById("spinner").style.opacity = 0;
+    }
   </script>
 
   <style>
@@ -66,11 +82,27 @@
       padding-bottom: 10px;
       padding-left: 10px;
     }
+
+    .loading-grid {
+      background-color: #F39C12;
+      padding-top: 10px;
+      padding-right: 10px;
+      padding-bottom: 10px;
+      padding-left: 10px;
+      border-radius: 5px;
+      -moz-box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.37);
+      box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.37);
+      opacity: 0;
+      transition: opacity 1s;
+    }
   </style>
+
 
   <div>
     <button id="use-bible" type="button">Use Bible as input</button>
     <button id="use-trump" type="button">Use Trump speeches as input</button>
+
+    <img src="grid.svg" width="40" alt="grid loader anim" class="loading-grid" id="spinner" display="none">
   </div>
 
   <div>
