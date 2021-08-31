@@ -42,9 +42,18 @@
 
         let result = generate_text(content, key_size, output_length);
 
-        document.getElementById("result").innerHTML = result;
+        let beautified = strip_to_first_sentence(result);
+
+        document.getElementById("result").innerHTML = beautified;
       }
     });
+
+    function strip_to_first_sentence(text) {
+      // Match everything from the start up to the first period, and the period itself.
+      const regexp = /^[^\.]*\./;
+      let result = text.replace(regexp, "");
+      return result;
+    }
   </script>
 
   <textarea id="input-text"></textarea>
