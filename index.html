@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <title>Markov Chain Nonsense Generator</title>
+  <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
 </head>
 
 <body>
@@ -56,14 +57,37 @@
     }
   </script>
 
-  <textarea id="input-text"></textarea>
+  <style>
+    div {
+      padding-top: 10px;
+      padding-right: 10px;
+      padding-bottom: 10px;
+      padding-left: 10px;
+    }
+  </style>
 
-  <input type="number" id="key-size" name="key-size" min="1" max="20" value="3">
-  <input type="number" id="output-length" name="output-length" min="1" max="2000" value="200">
+  <div>
+    <button id="use-bible" type="button">Use Bible as input</button>
+    <button id="use-trump" type="button">Use Trump speeches as input</button>
+  </div>
 
-  <button id="generate-button" type="button">Generate</button>
-  <button id="use-bible" type="button">Use Bible as input</button>
-  <button id="use-trump" type="button">Use Trump speeches as input</button>
+  <div>
+    <textarea id="input-text"></textarea>
+  </div>
+
+  <div>
+    <label for="key-size">Key size:</label>
+    <input type="number" id="key-size" name="key-size" min="1" max="20" value="3">
+  </div>
+
+  <div>
+    <label for="output-length">Output text length:</label>
+    <input type="number" id="output-length" name="output-length" min="1" max="2000" value="200">
+  </div>
+
+  <div>
+    <button id="generate-button" type="button">Generate</button>
+  </div>
 
   <p id="result"></p>
 </body>
